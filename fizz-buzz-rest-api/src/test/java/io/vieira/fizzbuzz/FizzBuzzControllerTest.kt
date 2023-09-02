@@ -27,9 +27,7 @@ class FizzBuzzControllerTest {
     private lateinit var fizzBuzzAlgorithm: FizzBuzzAlgorithm
 
     @Test
-    fun shouldGenerateFizzBuzzWithDefaultLimitAndReplacements() {
-        val request = FizzBuzzGenerationRequest()
-
+    fun shouldGenerateFizzBuzzWithLimitAndDefaultReplacements() {
         val result = listOf("1", "2", "fizz")
 
         every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
@@ -37,16 +35,18 @@ class FizzBuzzControllerTest {
         mockMvc.perform(post("/fizz-buzz")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+                .content("""{ "limit":  100 }"""))
                 .andExpect {
                     status().isOk
                     content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
                     content().json(objectMapper.writeValueAsString(result), true)
                 }
 
-        verify { fizzBuzzAlgorithm.generate(limit = 100, replacements = mapOf(
-                3 to "fizz", 5 to "buzz", 15 to "fizzbuzz"
-        )) }
+        verify {
+            fizzBuzzAlgorithm.generate(limit = 100, replacements = mapOf(
+                    3 to "fizz", 5 to "buzz"
+            ))
+        }
         confirmVerified(fizzBuzzAlgorithm)
     }
 
@@ -92,7 +92,7 @@ class FizzBuzzControllerTest {
                     content().json(objectMapper.writeValueAsString(result), true)
                 }
 
-        verify { fizzBuzzAlgorithm.generate(limit = 5, replacements = mapOf(3 to "fizz", 5 to "buzz", 15 to "fizzbuzz")) }
+        verify { fizzBuzzAlgorithm.generate(limit = 5, replacements = mapOf(3 to "fizz", 5 to "buzz")) }
         confirmVerified(fizzBuzzAlgorithm)
     }
 }

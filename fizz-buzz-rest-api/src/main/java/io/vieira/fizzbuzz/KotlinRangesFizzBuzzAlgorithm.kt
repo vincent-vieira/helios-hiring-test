@@ -7,8 +7,7 @@ class KotlinRangesFizzBuzzAlgorithm : FizzBuzzAlgorithm {
             val transformedValue = replacements
                     .entries
                     .filter { number % it.key == 0 }
-                    .map { it.value }
-                    .joinToString("")
+                    .joinToString("") { it.value }
 
             return@map when (transformedValue) {
                 "" -> number.toString()
