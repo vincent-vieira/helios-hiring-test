@@ -2,6 +2,7 @@ package io.vieira.fizzbuzz
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import io.vieira.fizzbuzz.observability.FizzBuzzGenerationCounter
 import jakarta.validation.constraints.Min
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -10,11 +11,14 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/fizz-buzz")
-class FizzBuzzController(private val fizzBuzzAlgorithm: FizzBuzzAlgorithm) {
+class FizzBuzzController(private val fizzBuzzAlgorithm: FizzBuzzAlgorithm,
+                         private val fizzBuzzGenerationCounter: FizzBuzzGenerationCounter) {
 
     @PostMapping
     fun generateFizzBuzz(@RequestBody request: FizzBuzzGenerationRequest): List<String> {
-        return fizzBuzzAlgorithm.generate(limit = request.limit, replacements = request.replacements)
+        val result = fizzBuzzAlgorithm.generate(limit = request.limit, replacements = request.replacements)
+        fizzBuzzGenerationCounter.registerNew(limit = request.limit, replacements = request.replacements)
+        return result
     }
 }
 

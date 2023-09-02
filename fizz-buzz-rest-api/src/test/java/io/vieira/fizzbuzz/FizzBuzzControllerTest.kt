@@ -2,9 +2,8 @@ package io.vieira.fizzbuzz
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import io.mockk.confirmVerified
-import io.mockk.every
-import io.mockk.verify
+import io.mockk.*
+import io.vieira.fizzbuzz.observability.FizzBuzzGenerationCounter
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -24,11 +23,17 @@ class FizzBuzzControllerTest {
     @MockkBean
     private lateinit var fizzBuzzAlgorithm: FizzBuzzAlgorithm
 
+    @MockkBean
+    private lateinit var fizzBuzzGenerationCounter: FizzBuzzGenerationCounter
+
     @Test
     fun shouldGenerateFizzBuzzWithLimitAndDefaultReplacements() {
+        val replacements = mapOf(3 to "fizz", 5 to "buzz")
+
         val result = listOf("1", "2", "fizz")
 
         every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
+        every { fizzBuzzGenerationCounter.registerNew(any(), any()) } just Runs
 
         mockMvc
                 .post("/fizz-buzz") {
@@ -42,12 +47,11 @@ class FizzBuzzControllerTest {
                     content { json(objectMapper.writeValueAsString(result), true) }
                 }
 
-        verify {
-            fizzBuzzAlgorithm.generate(limit = 100, replacements = mapOf(
-                    3 to "fizz", 5 to "buzz"
-            ))
+        verifySequence {
+            fizzBuzzAlgorithm.generate(limit = 100, replacements = replacements)
+            fizzBuzzGenerationCounter.registerNew(limit = 100, replacements = replacements)
         }
-        confirmVerified(fizzBuzzAlgorithm)
+        confirmVerified(fizzBuzzAlgorithm, fizzBuzzGenerationCounter)
     }
 
 
@@ -59,6 +63,7 @@ class FizzBuzzControllerTest {
         val result = listOf("1", "2", "3")
 
         every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
+        every { fizzBuzzGenerationCounter.registerNew(any(), any()) } just Runs
 
         mockMvc
                 .post("/fizz-buzz") {
@@ -72,17 +77,22 @@ class FizzBuzzControllerTest {
                     content { json(objectMapper.writeValueAsString(result), true) }
                 }
 
-        verify { fizzBuzzAlgorithm.generate(limit = 100, replacements = replacements) }
-        confirmVerified(fizzBuzzAlgorithm)
+        verifySequence {
+            fizzBuzzAlgorithm.generate(limit = 100, replacements = replacements)
+            fizzBuzzGenerationCounter.registerNew(limit = 100, replacements = replacements)
+        }
+        confirmVerified(fizzBuzzAlgorithm, fizzBuzzGenerationCounter)
     }
 
     @Test
     fun shouldGenerateCustomFizzBuzzWithCustomLimits() {
+        val replacements = mapOf(3 to "fizz", 5 to "buzz")
         val request = FizzBuzzGenerationRequest(limit = 5)
 
         val result = listOf("1", "2", "3")
 
         every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
+        every { fizzBuzzGenerationCounter.registerNew(any(), any()) } just Runs
 
         mockMvc
                 .post("/fizz-buzz") {
@@ -96,7 +106,10 @@ class FizzBuzzControllerTest {
                     content { json(objectMapper.writeValueAsString(result), true) }
                 }
 
-        verify { fizzBuzzAlgorithm.generate(limit = 5, replacements = mapOf(3 to "fizz", 5 to "buzz")) }
-        confirmVerified(fizzBuzzAlgorithm)
+        verifySequence {
+            fizzBuzzAlgorithm.generate(limit = 5, replacements = replacements)
+            fizzBuzzGenerationCounter.registerNew(limit = 5, replacements = replacements)
+        }
+        confirmVerified(fizzBuzzAlgorithm, fizzBuzzGenerationCounter)
     }
 }
