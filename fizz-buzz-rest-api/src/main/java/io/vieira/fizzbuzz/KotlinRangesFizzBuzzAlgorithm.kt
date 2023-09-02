@@ -4,9 +4,16 @@ class KotlinRangesFizzBuzzAlgorithm : FizzBuzzAlgorithm {
 
     override fun generate(limit: Int, replacements: Map<Int, String>): List<String> {
         return (1..limit).map { number ->
-            replacements
+            val transformedValue = replacements
                     .entries
-                    .firstOrNull { number % it.key == 0 }?.value ?: number.toString()
+                    .filter { number % it.key == 0 }
+                    .map { it.value }
+                    .joinToString("")
+
+            return@map when (transformedValue) {
+                "" -> number.toString()
+                else -> transformedValue
+            }
         }
     }
 }
