@@ -49,4 +49,28 @@ class FizzBuzzControllerTest {
         )) }
         confirmVerified(fizzBuzzAlgorithm)
     }
+
+
+    @Test
+    fun shouldGenerateCustomFizzBuzzWithCustomReplacements() {
+        val replacements = mapOf(5 to "toto")
+        val request = FizzBuzzGenerationRequest(replacements = replacements)
+
+        val result = listOf("1", "2", "3")
+
+        every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
+
+        mockMvc.perform(post("/fizz-buzz")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect {
+                    status().isOk
+                    content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+                    content().json(objectMapper.writeValueAsString(result), true)
+                }
+
+        verify { fizzBuzzAlgorithm.generate(limit = 100, replacements = replacements) }
+        confirmVerified(fizzBuzzAlgorithm)
+    }
 }
