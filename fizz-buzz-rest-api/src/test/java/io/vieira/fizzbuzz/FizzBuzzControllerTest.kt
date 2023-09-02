@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.post
 
 @WebMvcTest(controllers = [FizzBuzzController::class])
 class FizzBuzzControllerTest {
@@ -32,14 +30,16 @@ class FizzBuzzControllerTest {
 
         every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
 
-        mockMvc.perform(post("/fizz-buzz")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content("""{ "limit":  100 }"""))
+        mockMvc
+                .post("/fizz-buzz") {
+                    accept = MediaType.APPLICATION_JSON
+                    contentType = MediaType.APPLICATION_JSON
+                    content = """{ "limit": 100 }"""
+                }
                 .andExpect {
-                    status().isOk
-                    content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
-                    content().json(objectMapper.writeValueAsString(result), true)
+                    status { isOk() }
+                    content { contentTypeCompatibleWith(MediaType.APPLICATION_JSON) }
+                    content { json(objectMapper.writeValueAsString(result), true) }
                 }
 
         verify {
@@ -60,14 +60,16 @@ class FizzBuzzControllerTest {
 
         every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
 
-        mockMvc.perform(post("/fizz-buzz")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+        mockMvc
+                .post("/fizz-buzz") {
+                    accept = MediaType.APPLICATION_JSON
+                    contentType = MediaType.APPLICATION_JSON
+                    content = objectMapper.writeValueAsString(request)
+                }
                 .andExpect {
-                    status().isOk
-                    content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
-                    content().json(objectMapper.writeValueAsString(result), true)
+                    status { isOk() }
+                    content { contentTypeCompatibleWith(MediaType.APPLICATION_JSON) }
+                    content { json(objectMapper.writeValueAsString(result), true) }
                 }
 
         verify { fizzBuzzAlgorithm.generate(limit = 100, replacements = replacements) }
@@ -82,14 +84,16 @@ class FizzBuzzControllerTest {
 
         every { fizzBuzzAlgorithm.generate(any(), any()) } returns result
 
-        mockMvc.perform(post("/fizz-buzz")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+        mockMvc
+                .post("/fizz-buzz") {
+                    accept = MediaType.APPLICATION_JSON
+                    contentType = MediaType.APPLICATION_JSON
+                    content = objectMapper.writeValueAsString(request)
+                }
                 .andExpect {
-                    status().isOk
-                    content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
-                    content().json(objectMapper.writeValueAsString(result), true)
+                    status { isOk() }
+                    content { contentTypeCompatibleWith(MediaType.APPLICATION_JSON) }
+                    content { json(objectMapper.writeValueAsString(result), true) }
                 }
 
         verify { fizzBuzzAlgorithm.generate(limit = 5, replacements = mapOf(3 to "fizz", 5 to "buzz")) }
