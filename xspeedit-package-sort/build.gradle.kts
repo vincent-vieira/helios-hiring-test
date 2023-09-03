@@ -1,6 +1,8 @@
 plugins {
-    kotlin("jvm") version "1.9.10"
+    java
 }
+
+apply(plugin = "org.jetbrains.kotlin.jvm")
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
