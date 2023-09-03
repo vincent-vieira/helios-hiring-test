@@ -28,14 +28,14 @@ class ActuatorBasedFizzBuzzGenerationCounter(private val meterRegistry: MeterReg
             val tags = mostRequestedDistributionSummary.id.tags
 
             MostRequestedFizzBuzzGeneration(
-                    tags.first { it.key == "limit" }.value.toInt(),
-                    tags
+                    limit = tags.first { it.key == "limit" }.value.toInt(),
+                    replacements = tags
                             .filter { it.key.startsWith("str") }
                             // Sorting by str1, str2...
                             .sortedBy { it.key.replace("str", "").toInt() }
                             .withIndex()
                             .associateBy({ (index, _) -> tags.first { it.key == "int${index + 1}" }.value.toInt() }, { (_, tag) -> tag.value }),
-                    mostRequestedDistributionSummary.count()
+                    hits = mostRequestedDistributionSummary.count()
             )
         } catch (notFoundException: MeterNotFoundException) {
             null

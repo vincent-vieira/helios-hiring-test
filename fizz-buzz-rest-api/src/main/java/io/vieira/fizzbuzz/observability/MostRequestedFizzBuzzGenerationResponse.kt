@@ -24,10 +24,10 @@ class MostRequestedFizzBuzzGenerationResponse(mostRequestedFizzBuzzGeneration: M
 
     init {
         this.limit = mostRequestedFizzBuzzGeneration.limit
+        this.count = mostRequestedFizzBuzzGeneration.hits
         this.int1 = mostRequestedFizzBuzzGeneration.replacements.keys.first()
         this.int2 = mostRequestedFizzBuzzGeneration.replacements.keys.elementAt(1)
         this.str1 = mostRequestedFizzBuzzGeneration.replacements.values.first()
         this.str2 = mostRequestedFizzBuzzGeneration.replacements.values.elementAt(1)
-        this.count = mostRequestedFizzBuzzGeneration.hits
     }
 }
