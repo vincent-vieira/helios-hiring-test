@@ -57,8 +57,8 @@ class FizzBuzzControllerTest {
 
     @Test
     fun shouldGenerateCustomFizzBuzzWithCustomReplacements() {
-        val replacements = mapOf(5 to "toto")
-        val request = FizzBuzzGenerationRequest(replacements = replacements)
+        val replacements = mapOf(3 to "titi", 5 to "toto")
+        val request = FizzBuzzGenerationRequest(int1 = 3, int2 = 5, str1 = "titi", str2 = "toto")
 
         val result = listOf("1", "2", "3")
 
@@ -86,8 +86,8 @@ class FizzBuzzControllerTest {
 
     @Test
     fun shouldGenerateCustomFizzBuzzWithCustomLimits() {
-        val replacements = mapOf(3 to "fizz", 5 to "buzz")
-        val request = FizzBuzzGenerationRequest(limit = 5)
+        val replacements = mapOf(3 to "titi", 5 to "toto")
+        val request = FizzBuzzGenerationRequest(int1 = 3, int2 = 5, str1 = "titi", str2 = "toto", limit = 5)
 
         val result = listOf("1", "2", "3")
 

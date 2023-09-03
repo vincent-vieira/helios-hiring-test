@@ -16,13 +16,18 @@ class FizzBuzzController(private val fizzBuzzAlgorithm: FizzBuzzAlgorithm,
 
     @PostMapping
     fun generateFizzBuzz(@RequestBody request: FizzBuzzGenerationRequest): List<String> {
-        val result = fizzBuzzAlgorithm.generate(limit = request.limit, replacements = request.replacements)
-        fizzBuzzGenerationCounter.registerNew(limit = request.limit, replacements = request.replacements)
+        val replacements = mapOf(request.int1 to request.str1, request.int2 to request.str2)
+
+        val result = fizzBuzzAlgorithm.generate(limit = request.limit, replacements = replacements)
+        fizzBuzzGenerationCounter.registerNew(limit = request.limit, replacements = replacements)
         return result
     }
 }
 
 data class FizzBuzzGenerationRequest @JsonCreator constructor(
         @JsonProperty("limit") @Min(1) val limit: Int = 100,
-        @JsonProperty("replacements", required = false) val replacements: Map<Int, String> = mapOf(3 to "fizz", 5 to "buzz")
+        val int1: Int = 3,
+        val int2: Int = 5,
+        val str1: String = "fizz",
+        val str2: String = "buzz"
 )
