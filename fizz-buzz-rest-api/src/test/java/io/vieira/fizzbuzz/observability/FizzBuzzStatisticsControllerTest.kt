@@ -23,7 +23,7 @@ class FizzBuzzStatisticsControllerTest {
     @Test
     fun shouldExposeStatisticsAboutMostRequestedGeneration() {
         every { fizzBuzzGenerationCounter.findMostRequested() } returns MostRequestedFizzBuzzGeneration(
-                150, mapOf(3 to "fizz", 5 to "buzz"), 3
+                limit = 150, replacements = mapOf(3 to "fizz", 5 to "buzz"), hits = 3
         )
 
         mockMvc
