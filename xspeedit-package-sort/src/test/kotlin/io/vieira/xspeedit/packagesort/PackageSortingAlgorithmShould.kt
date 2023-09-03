@@ -21,4 +21,17 @@ class PackageSortingAlgorithmShould {
                 listOf(7)
         ), result)
     }
+
+    @Test
+    fun workWithACustomPackageSize() {
+        val result = PackageSortingAlgorithm(packageCapacity = 3)
+                .optimize(listOf(3, 1, 1, 2, 1, 1, 1))
+
+        assertEquals(listOf(
+                listOf(3),
+                listOf(1, 1, 1),
+                listOf(2, 1),
+                listOf(1)
+        ), result)
+    }
 }
