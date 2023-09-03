@@ -11,7 +11,7 @@ class PackageSortingAlgorithmShould {
     @ParameterizedTest
     @MethodSource("sortingAlgorithms")
     fun workWithDefaults(packageSortingAlgorithm: PackageSortingAlgorithm) {
-        val result = packageSortingAlgorithm.optimize(listOf(1, 6, 3, 8, 4, 1, 6, 8, 9, 5, 2, 5, 7, 7, 3))
+        val result = packageSortingAlgorithm.optimize(sequenceOf(1, 6, 3, 8, 4, 1, 6, 8, 9, 5, 2, 5, 7, 7, 3))
 
         assertEquals(listOf(
                 listOf(1, 6, 3),
@@ -28,7 +28,7 @@ class PackageSortingAlgorithmShould {
     @ParameterizedTest
     @MethodSource("sortingAlgorithmsWithCustomSize")
     fun workWithACustomPackageSize(packageSortingAlgorithm: PackageSortingAlgorithm) {
-        val result = packageSortingAlgorithm.optimize(listOf(3, 1, 1, 2, 1, 1, 1))
+        val result = packageSortingAlgorithm.optimize(sequenceOf(3, 1, 1, 2, 1, 1, 1))
 
         assertEquals(listOf(
                 listOf(3),
