@@ -2,9 +2,6 @@ package io.vieira.fizzbuzz
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
-import io.vieira.fizzbuzz.FizzBuzzAlgorithm
-import io.vieira.fizzbuzz.FizzBuzzController
-import io.vieira.fizzbuzz.FizzBuzzGenerationRequest
 import io.mockk.*
 import io.vieira.fizzbuzz.observability.FizzBuzzGenerationCounter
 import org.junit.jupiter.api.Test
@@ -15,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 
 @WebMvcTest(controllers = [FizzBuzzController::class])
-class FizzBuzzControllerTest {
+class FizzBuzzControllerShould {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -30,7 +27,7 @@ class FizzBuzzControllerTest {
     private lateinit var fizzBuzzGenerationCounter: FizzBuzzGenerationCounter
 
     @Test
-    fun shouldGenerateFizzBuzzWithLimitAndDefaultReplacements() {
+    fun generateFizzBuzzWithLimitAndDefaultReplacements() {
         val replacements = mapOf(3 to "fizz", 5 to "buzz")
 
         val result = listOf("1", "2", "fizz")
@@ -59,7 +56,7 @@ class FizzBuzzControllerTest {
 
 
     @Test
-    fun shouldGenerateCustomFizzBuzzWithCustomReplacements() {
+    fun generateCustomFizzBuzzWithCustomReplacements() {
         val replacements = mapOf(3 to "titi", 5 to "toto")
         val request = FizzBuzzGenerationRequest(int1 = 3, int2 = 5, str1 = "titi", str2 = "toto")
 
@@ -88,7 +85,7 @@ class FizzBuzzControllerTest {
     }
 
     @Test
-    fun shouldGenerateCustomFizzBuzzWithCustomLimits() {
+    fun generateCustomFizzBuzzWithCustomLimits() {
         val replacements = mapOf(3 to "titi", 5 to "toto")
         val request = FizzBuzzGenerationRequest(int1 = 3, int2 = 5, str1 = "titi", str2 = "toto", limit = 5)
 
