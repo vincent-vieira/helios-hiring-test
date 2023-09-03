@@ -1,5 +1,8 @@
 package io.vieira.fizzbuzz.observability
 
+import io.vieira.fizzbuzz.observability.ActuatorBasedFizzBuzzGenerationCounter
+import io.vieira.fizzbuzz.observability.MostRequestedFizzBuzzGeneration
+import io.vieira.fizzbuzz.observability.metricName
 import io.micrometer.core.instrument.DistributionSummary
 import io.micrometer.core.instrument.Meter
 import io.micrometer.core.instrument.MeterRegistry

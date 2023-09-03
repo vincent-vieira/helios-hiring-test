@@ -1,6 +1,9 @@
 package io.vieira.fizzbuzz.observability
 
 import com.ninjasquad.springmockk.MockkBean
+import io.vieira.fizzbuzz.observability.FizzBuzzGenerationCounter
+import io.vieira.fizzbuzz.observability.FizzBuzzStatisticsController
+import io.vieira.fizzbuzz.observability.MostRequestedFizzBuzzGeneration
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.verify

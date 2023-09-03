@@ -2,6 +2,9 @@ package io.vieira.fizzbuzz
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
+import io.vieira.fizzbuzz.FizzBuzzAlgorithm
+import io.vieira.fizzbuzz.FizzBuzzController
+import io.vieira.fizzbuzz.FizzBuzzGenerationRequest
 import io.mockk.*
 import io.vieira.fizzbuzz.observability.FizzBuzzGenerationCounter
 import org.junit.jupiter.api.Test
