@@ -1,6 +1,6 @@
 package io.vieira.xspeedit.packagesort
 
-class NaivePackageSortingAlgorithm(private val packageCapacity: Int = 10) : PackageSortingAlgorithm {
+class BruteforcePackageSortingAlgorithm(private val packageCapacity: Int = 10) : PackageSortingAlgorithm {
 
     // Offline heuristics are out of the question, and as we can't sort
     // the items we're in a first-fit kind of situation.

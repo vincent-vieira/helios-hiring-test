@@ -42,14 +42,16 @@ class PackageSortingAlgorithmShould {
         @JvmStatic
         fun sortingAlgorithms(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(NaivePackageSortingAlgorithm())
+                    Arguments.of(BruteforcePackageSortingAlgorithm()),
+                    Arguments.of(SegmentTreePackageSortingAlgorithm())
             )
         }
 
         @JvmStatic
         fun sortingAlgorithmsWithCustomSize(): Stream<Arguments> {
             return Stream.of(
-                    Arguments.of(NaivePackageSortingAlgorithm(packageCapacity = 3))
+                    Arguments.of(BruteforcePackageSortingAlgorithm(packageCapacity = 3)),
+                    Arguments.of(SegmentTreePackageSortingAlgorithm(packageCapacity = 3))
             )
         }
     }
