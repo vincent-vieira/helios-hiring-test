@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(MockKExtension::class)
-class ActuatorBasedFizzBuzzGenerationCounterTest {
+class ActuatorBasedFizzBuzzGenerationCounterShould {
 
     @MockK
     private lateinit var meterRegistry: MeterRegistry
@@ -23,7 +23,7 @@ class ActuatorBasedFizzBuzzGenerationCounterTest {
     private lateinit var generationCounter: ActuatorBasedFizzBuzzGenerationCounter
 
     @Test
-    fun shouldUseTheCorrectMetricWhenRegisteringAHit() {
+    fun useTheCorrectMetricWhenRegisteringAHit() {
         val distributionSummary: DistributionSummary = mockk<DistributionSummary>()
         every { meterRegistry.summary(any(), *anyVararg()) } returns distributionSummary
         every { distributionSummary.record(any()) } just runs
@@ -38,7 +38,7 @@ class ActuatorBasedFizzBuzzGenerationCounterTest {
     }
 
     @Test
-    fun shouldProcessHighestCountDistributionSummaryToReturnStatistics() {
+    fun processHighestCountDistributionSummaryToReturnStatistics() {
         val highestDistributionSummary: DistributionSummary = mockk<DistributionSummary>()
         val lowestDistributionSummary: DistributionSummary = mockk<DistributionSummary>()
         val requiredSearch: RequiredSearch = mockk<RequiredSearch>()

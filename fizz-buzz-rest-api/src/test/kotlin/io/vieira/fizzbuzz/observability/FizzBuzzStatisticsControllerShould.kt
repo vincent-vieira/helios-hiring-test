@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
 @WebMvcTest(controllers = [FizzBuzzStatisticsController::class])
-class FizzBuzzStatisticsControllerTest {
+class FizzBuzzStatisticsControllerShould {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
@@ -21,7 +21,7 @@ class FizzBuzzStatisticsControllerTest {
     private lateinit var fizzBuzzGenerationCounter: FizzBuzzGenerationCounter
 
     @Test
-    fun shouldExposeStatisticsAboutMostRequestedGeneration() {
+    fun exposeStatisticsAboutMostRequestedGeneration() {
         every { fizzBuzzGenerationCounter.findMostRequested() } returns MostRequestedFizzBuzzGeneration(
                 limit = 150, replacements = mapOf(3 to "fizz", 5 to "buzz"), hits = 3
         )
@@ -43,7 +43,7 @@ class FizzBuzzStatisticsControllerTest {
     }
 
     @Test
-    fun shouldReturnNotFoundWhenNoGenerationHasBeenRequested() {
+    fun returnNotFoundWhenNoGenerationHasBeenRequestedYet() {
         every { fizzBuzzGenerationCounter.findMostRequested() } returns null
 
         mockMvc

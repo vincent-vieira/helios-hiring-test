@@ -1,9 +1,9 @@
 plugins {
     java
     id("org.springframework.boot") version "3.1.3"
-    kotlin("jvm") version "1.9.10"
 }
 
+apply(plugin = "org.jetbrains.kotlin.jvm")
 apply(plugin = "io.spring.dependency-management")
 
 dependencies {
