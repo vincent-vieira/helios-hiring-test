@@ -5,6 +5,7 @@ import io.vieira.fizzbuzz.observability.FizzBuzzGenerationCounter
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -30,6 +31,6 @@ data class FizzBuzzGenerationRequest @JsonCreator constructor(
         @field:Min(1) @field:Max(100000) val limit: Int = 100,
         @field:Min(1) @field:Max(100000) val int1: Int = 3,
         @field:Min(1) @field:Max(100000) val int2: Int = 5,
-        val str1: String = "fizz",
-        val str2: String = "buzz"
+        @field:NotNull val str1: String = "fizz",
+        @field:NotNull val str2: String = "buzz"
 )
