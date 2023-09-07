@@ -2,8 +2,8 @@ package io.vieira.fizzbuzz
 
 class KotlinRangesFizzBuzzAlgorithm : FizzBuzzAlgorithm {
 
-    override fun generate(limit: Int, replacements: Map<Int, String>): List<String> {
-        return (1..limit).map { number ->
+    override fun generate(limit: Int, replacements: Map<Int, String>): Sequence<String> {
+        return (1..limit).asSequence().map { number ->
             val transformedValue = replacements
                     .entries
                     .filter { number % it.key == 0 }
