@@ -5,6 +5,8 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.*
 import io.vieira.fizzbuzz.observability.FizzBuzzGenerationCounter
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
@@ -110,6 +112,27 @@ class FizzBuzzControllerShould {
             fizzBuzzAlgorithm.generate(limit = 5, replacements = replacements)
             fizzBuzzGenerationCounter.registerNew(limit = 5, replacements = replacements)
         }
+        confirmVerified(fizzBuzzAlgorithm, fizzBuzzGenerationCounter)
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [
+        1_000_000,
+        Int.MAX_VALUE
+    ])
+    fun rejectGenerationRequestsWithTooGreatLimit(limit: Int) {
+        val request = FizzBuzzGenerationRequest(int1 = 3, int2 = 5, str1 = "titi", str2 = "toto", limit = limit)
+
+        mockMvc
+                .post("/fizz-buzz") {
+                    accept = MediaType.APPLICATION_JSON
+                    contentType = MediaType.APPLICATION_JSON
+                    content = objectMapper.writeValueAsString(request)
+                }
+                .andExpect {
+                    status { isBadRequest() }
+                }
+
         confirmVerified(fizzBuzzAlgorithm, fizzBuzzGenerationCounter)
     }
 }
